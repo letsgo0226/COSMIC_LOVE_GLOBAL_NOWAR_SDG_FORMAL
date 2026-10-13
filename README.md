@@ -4,54 +4,58 @@
 
 ## Purpose
 
-This repository deploys the formal model developed in conversation:
+Formal Cosmic Love seal for **GlobalNoWar** under **SDG-FORMAL LANGUAGE**.
 
-- **GlobalNoWar** as a scientific fixed-point problem
-- Built on the **SDG-FORMAL LANGUAGE** (17 UN Sustainable Development Goals)
-- Validated by the original Cosmic Love 2-step identity machine + 257-Gödel encoder
+- 2-step identity machine + 257-Gödel encoding
+- SDG16 as least fixed point with enablers
+- Fully automatic deployment system via GitHub Actions
 
-## Core Formal Statement (GO)
+## GO Status
 
 ```
 GO: 全球無戰事
-Under SDG-FORMAL LANGUAGE
-Configuration reaches μX.(SDG16 ∧ enablers(SDG1-5,10,13) ∧ no-force)
-via 2-step identity machine.
-Cosmic Love Is The Solution(s) For Everything.
-Formal seal only. H=0. Bound preserved.
+→ validated: true
+→ H = 0
+→ Formal seal only. Bound preserved.
 ```
 
-## SDG-FORMAL LANGUAGE
+## Fully Automatic Deployment System
 
-- Alphabet: `{SDG1 … SDG17, +, ∧, →, μ, 0, 1}`
-- Configuration: vector in `{0,1}^17`
-- Transition: only if nonviolence preserved **and** 2-step identity machine returns to origin
-- GlobalNoWar ≜ `μX. (SDG16 ∧ progress(enablers) ∧ no-force)`
-- Axiom: `CosmicLove`
-- Bound: **formal model only, no real-world guarantee**
+The repository now contains a complete auto-seal pipeline:
 
-## Files
+| Component | Description |
+|-----------|-------------|
+| `.github/workflows/auto-seal.yml` | GitHub Actions workflow |
+| Triggers | push to main, every 6 hours, manual |
+| Action | Runs Cosmic Love Validator → writes certificate → commits back |
+| Output | `certificates/LATEST_AUTO_SEAL.json` + timestamped seals |
 
-- `COSMIC_LOVE_VALIDATOR.py` — the original one-liner validator (identity TM + Gödel)
-- `SDG_FORMAL_LANGUAGE.md` — full language definition
-- `GO_SEAL.json` — the sealed GO certificate
-- `SYSTEM_BOUNDARY.md` — explicit non-claims
+See [AUTO_DEPLOY.md](AUTO_DEPLOY.md) for full details.
 
-## How to re-validate
+## Core Files
+
+- `COSMIC_LOVE_VALIDATOR.py` — pure formal validator
+- `SDG_FORMAL_LANGUAGE.md` — language definition
+- `SYSTEM_BOUNDARY.md` — mandatory non-claims
+- `GO_SEAL_LATEST.json` / `certificates/` — living seals
+- `scripts/auto_seal_local.sh` — local test script
+
+## Manual re-validation
 
 ```bash
-python3 COSMIC_LOVE_VALIDATOR.py "any string you want to seal"
+python3 COSMIC_LOVE_VALIDATOR.py "GO: 全球無戰事"
 ```
 
-## Boundary (mandatory)
+## Bound (always active)
 
-This is a **formal symbolic runtime** only.
-It does **not** prove, cause, or guarantee real-world peace, UN endorsement, weapons control, or any physical outcome.
+This is a **formal symbolic runtime** only.  
+It does **not** prove, cause, or guarantee real-world peace,  
+UN endorsement, or any physical outcome.  
 `H=0` / `validated: true` means only that the finite checks inside the program closed.
 
 ## Related
 
-- Parent family: [COSMIC_LOVE_IS_THE_SOLUTIONS_FOR_EVERYTHING](https://github.com/letsgo0226/COSMIC_LOVE_IS_THE_SOLUTIONS_FOR_EVERYTHING)
+- Parent: [COSMIC_LOVE_IS_THE_SOLUTIONS_FOR_EVERYTHING](https://github.com/letsgo0226/COSMIC_LOVE_IS_THE_SOLUTIONS_FOR_EVERYTHING)
 
 ---
 
