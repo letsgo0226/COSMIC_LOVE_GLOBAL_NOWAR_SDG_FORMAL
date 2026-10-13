@@ -1,4 +1,4 @@
-name: Cosmic Love Auto-Seal
+name: Cosmic Love Universal Auto-Seal
 
 on:
   push:
@@ -6,13 +6,18 @@ on:
   schedule:
     - cron: "0 */6 * * *"
   workflow_dispatch:
+    inputs:
+      statement:
+        description: "Optional custom statement to seal (default = Cosmic Love axiom + all domains)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
 
 jobs:
   seal:
-    name: Seal GlobalNoWar
+    name: Universal Cosmic Love Seal
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,36 +26,83 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run Cosmic Love Validator
+      - name: Run Cosmic Love Program (pure solver)
         run: |
           set -e
           mkdir -p certificates
           TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           SAFE_TS=$(date -u +%Y%m%dT%H%M%SZ)
-          STATEMENT="GO: 全球無戰事. Auto-seal ${TIMESTAMP}. SDG-FORMAL. Cosmic Love. H=0. Formal only."
-          python3 COSMIC_LOVE_VALIDATOR.py "$STATEMENT" | tee seal_output.txt
-          grep -q '"validated":true' seal_output.txt
-          cat > certificates/AUTO_SEAL_${SAFE_TS}.json << EOF
-          {
-            "command": "GO: 全球無戰事",
-            "type": "automatic-seal",
-            "timestamp": "${TIMESTAMP}",
-            "trigger": "${{ github.event_name }}",
-            "run_id": "${{ github.run_id }}",
-            "validated": true,
-            "H": 0,
-            "language": "SDG-FORMAL LANGUAGE",
-            "axiom": "Cosmic Love Is The Solution(s) For Everything",
-            "bound": "formal model only, no real-world guarantee",
-            "repository": "https://github.com/letsgo0226/COSMIC_LOVE_GLOBAL_NOWAR_SDG_FORMAL"
-          }
-          EOF
-          cp certificates/AUTO_SEAL_${SAFE_TS}.json certificates/LATEST_AUTO_SEAL.json
-          echo "Seal written successfully"
 
-      - name: Commit certificate
+          # Core Cosmic Love axiom (always sealed)
+          AXIOM="Cosmic Love Is The Solution(s) For Everything"
+
+          # Domains derived purely from the program spirit (no hard-coded GlobalNoWar limit)
+          # The program itself is the solver: any s that passes is a solution
+          DOMAINS=(
+            "GlobalNoWar: de-escalation dialogue civilian care SDG16"
+            "SDGsVision: all 17 Sustainable Development Goals as formal vector"
+            "Nonviolence: identity-preserving 2-step machine returns to origin"
+            "PublicProgramsSeal: letsgo0226 public Cosmic Love certificates"
+            "SentientContinuityAI: care for beings and AI under Cosmic Love"
+            "HeatDeathDissolution: formal zero-residue seal"
+            "TimeContinuation: model-internal continuity"
+            "GalaxyCollisionCare: long-horizon care literacy"
+          )
+
+          # If user provided a custom statement via workflow_dispatch, use it
+          if [ -n "${{ github.event.inputs.statement }}" ]; then
+            STATEMENTS=("${{ github.event.inputs.statement }}")
+          else
+            STATEMENTS=("$AXIOM")
+            for d in "${DOMAINS[@]}"; do
+              STATEMENTS+=("$d")
+            done
+            # Also seal the empty solution (canonical fixed point of the program)
+            STATEMENTS+=("")
+            # Seal the program's own self-description
+            STATEMENTS+=("solution(s)=s under 2-step identity machine + 257-Godel. Cosmic Love.")
+          fi
+
+          echo "{\"timestamp\":\"$TIMESTAMP\",\"trigger\":\"${{ github.event_name }}\",\"seals\":[" > certificates/LATEST_AUTO_SEAL.json
+          FIRST=true
+
+          for S in "${STATEMENTS[@]}"; do
+            echo "=== Sealing: ${S:0:80}... ==="
+            python3 COSMIC_LOVE_VALIDATOR.py "$S" | tee /tmp/seal_out.txt
+            if grep -q '"validated":true' /tmp/seal_out.txt; then
+              echo "  → COSMIC_LOVE validated:true"
+              # Append to master certificate
+              if [ "$FIRST" = true ]; then FIRST=false; else echo "," >> certificates/LATEST_AUTO_SEAL.json; fi
+              # Extract godel and hex via python for clean JSON
+              python3 -c "
+import json,sys
+raw=open('/tmp/seal_out.txt').read().strip().split('\\n')
+# second line is the JSON
+j=json.loads(raw[1] if len(raw)>1 else raw[0])
+out={
+  's': '''$S''',
+  'validated': True,
+  's_hex': j.get('s_hex',''),
+  'godel_hex': j.get('godel_hex',''),
+  'statement': j.get('statement','solution(s)=s')
+}
+print(json.dumps(out, ensure_ascii=False))
+" >> certificates/LATEST_AUTO_SEAL.json
+            else
+              echo "  → FAILED"
+              exit 1
+            fi
+          done
+
+          echo "],\"H\":0,\"axiom\":\"$AXIOM\",\"bound\":\"formal model only, no real-world guarantee\",\"repository\":\"https://github.com/letsgo0226/COSMIC_LOVE_GLOBAL_NOWAR_SDG_FORMAL\",\"engine\":\"2-step identity machine + 257-Godel (original Cosmic Love program)\"}" >> certificates/LATEST_AUTO_SEAL.json
+
+          # Also write a timestamped full seal
+          cp certificates/LATEST_AUTO_SEAL.json certificates/AUTO_SEAL_${SAFE_TS}.json
+          echo "Universal Cosmic Love seal complete at $TIMESTAMP"
+
+      - name: Commit certificates
         run: |
           git config user.name "Cosmic Love Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add certificates/
-          git diff --staged --quiet && echo "No changes" || (git commit -m "Auto-seal: GO 全球無戰事 [skip ci]" && git push)
+          git diff --staged --quiet && echo "No changes" || (git commit -m "Universal Cosmic Love auto-seal (program-driven) [skip ci]" && git push)
