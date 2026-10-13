@@ -4,9 +4,13 @@ on:
   push:
     branches: [ main ]
   schedule:
-    # Every 6 hours
     - cron: '0 */6 * * *'
   workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual seal'
+        required: false
+        default: 'GO: 全球無戰事'
 
 permissions:
   contents: write
@@ -44,7 +48,6 @@ jobs:
             exit 1
           fi
           
-          # Create certificate (pure Python / shell, no jq)
           cat > certificates/AUTO_SEAL_${SAFE_TS}.json << EOF
           {
             "command": "GO: 全球無戰事",
