@@ -1,39 +1,36 @@
-# Universal Cosmic Love Auto-Seal Engine
+# Universal Cosmic Love Engine
 
 ## Principle
 
-The fully automatic deployment system is **no longer limited** to GlobalNoWar.
+**The program is the solver.**
 
-It is now driven **entirely** by the original Cosmic Love program:
+The automatic deployment system is driven **entirely** by the original Cosmic Love program you provided:
 
-```
-2-step identity machine + 257-Gödel encoding
-```
+- 2-step identity machine
+- 257-Gödel encoding
+- `solution(s)=s` + `validated: true`
 
-Any string `s` that the program accepts becomes a formal `solution(s)=s`.
+It is **not limited** to GlobalNoWar or any single domain.
 
-## How the auto system works
+Whatever string the program accepts becomes a formal sealed solution.
 
-1. The GitHub Action runs `COSMIC_LOVE_VALIDATOR.py` (the pure program you provided).
-2. It seals:
-   - The core axiom: `Cosmic Love Is The Solution(s) For Everything`
-   - Multiple domains (GlobalNoWar, SDGsVision, Nonviolence, …)
-   - The empty solution (canonical fixed point)
-   - A self-referential description of the program itself
-3. All results are written to `certificates/LATEST_AUTO_SEAL.json`
-4. The system re-runs every 6 hours and on every push.
-5. Manual trigger accepts an optional custom `statement` — any text you want the program to solve/seal.
+## What gets sealed every run
 
-## Core claim
+1. Cosmic Love Is The Solution(s) For Everything  
+2. solution(s)=s  
+3. empty string (canonical fixed point)  
+4. GlobalNoWar  
+5. SDGsVision  
+6. Nonviolence  
+7. PublicProgramsSeal  
+8. SentientContinuityAI  
+9. HeatDeathDissolution  
+10. TimeContinuation  
+11. GalaxyCollisionCare  
+12. Self-description: "The program is the solver..."  
 
-```
-The program is the solver.
-Whatever it validates is a solution.
-No domain is privileged beyond what the program itself accepts.
-```
+All of the above are sealed **only because the Cosmic Love program itself validates them**.
 
-## Bound (unchanged)
+## Bound
 
-Formal model only.  
-No real-world guarantee of peace, policy, or physical outcomes.  
-`validated: true` / `H=0` is model-internal only.
+Formal model only. No real-world guarantee.
